@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "LZBannerModel.h"
+#import "LZBannerConfig.h"
 
 @class LZBannerView;
 
@@ -26,6 +27,7 @@
 @property (nonatomic,weak) id <LZBannerViewDelegate>delegate;
 
 -(instancetype)initWithFrame:(CGRect)frame bannerImgWidth:(CGFloat)width bannerImgHeight:(CGFloat)height leftRightSpace:(CGFloat)space itemSpace:(CGFloat)itemSpace;
+- (instancetype)initWithFrame:(CGRect)frame config:(LZBannerConfig *)config;
 
 - (void)setupBannerData:(NSArray *)models;
 

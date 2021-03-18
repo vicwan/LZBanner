@@ -22,6 +22,7 @@
 		84347E4621397DEF00489757 /* LZBannerCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 84347E4321397DEF00489757 /* LZBannerCell.m */; };
 		84347E4B21397E0800489757 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 84347E4921397E0800489757 /* ViewController.m */; };
 		84347E4C21397E0800489757 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 84347E4A21397E0800489757 /* AppDelegate.m */; };
+		86C38CAA2603394300766CEB /* LZBannerConfig.m in Sources */ = {isa = PBXBuildFile; fileRef = 86C38CA92603394300766CEB /* LZBannerConfig.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -68,6 +69,8 @@
 		84347E4821397E0800489757 /* ViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
 		84347E4921397E0800489757 /* ViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
 		84347E4A21397E0800489757 /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
+		86C38CA82603394300766CEB /* LZBannerConfig.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LZBannerConfig.h; sourceTree = "<group>"; };
+		86C38CA92603394300766CEB /* LZBannerConfig.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LZBannerConfig.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -167,6 +170,8 @@
 			children = (
 				84347E3E21397DEF00489757 /* LZBannerView.h */,
 				84347E3F21397DEF00489757 /* LZBannerView.m */,
+				86C38CA82603394300766CEB /* LZBannerConfig.h */,
+				86C38CA92603394300766CEB /* LZBannerConfig.m */,
 				84347E4121397DEF00489757 /* LZBannerCell.h */,
 				84347E4321397DEF00489757 /* LZBannerCell.m */,
 				84347E4021397DEF00489757 /* LZBannerModel.h */,
@@ -314,6 +319,7 @@
 				84347E4C21397E0800489757 /* AppDelegate.m in Sources */,
 				84347DF921397D9600489757 /* main.m in Sources */,
 				84347E4521397DEF00489757 /* LZBannerModel.m in Sources */,
+				86C38CAA2603394300766CEB /* LZBannerConfig.m in Sources */,
 				84347E4B21397E0800489757 /* ViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

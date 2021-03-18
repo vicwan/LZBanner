@@ -10,7 +10,6 @@
 #import "LZBannerCell.h"
 
 #define kLZ_Bannerinterval 3
-#define kLZ_ScreenWidth  [UIScreen mainScreen].bounds.size.width
 
 @interface LZBannerView () <UICollectionViewDataSource, UICollectionViewDelegateFlowLayout,UIScrollViewDelegate>
 
@@ -21,22 +20,40 @@
 @property (nonatomic, assign) NSInteger                currentPage;//当前页数
 @property (nonatomic, assign) CGFloat                   bannerCellWidth; // banner图的宽度
 @property (nonatomic, assign) CGFloat                   bannerCellHeight; //banner图的高度
-@property (nonatomic, assign) CGFloat                   cellLeadingSpace;// cell之间的距离
-@property (nonatomic, assign) CGFloat                   cellInsetLeftRight; // banner图在正中间时候，距离左右间距
+@property (nonatomic, assign) CGFloat                   itemSpacing;// cell之间的距离
+@property (nonatomic, assign) CGFloat                   itemInsetSpacing; // banner图在正中间时候，距离左右间距
 @property (nonatomic, assign) NSInteger                virtualCellCount;//虚拟的数据源 banner图个数
+
+@property (nonatomic, strong) LZBannerConfig *config;
 
 @end
 
 
 @implementation LZBannerView
 
+- (instancetype)initWithFrame:(CGRect)frame config:(LZBannerConfig *)config {
+    if (self = [super initWithFrame:frame]) {
+        self.config = config;
+        [self setupConfigurations];
+    }
+    return self;
+}
+
+- (void)setConfig:(LZBannerConfig *)config {
+    _config = config;
+    _bannerCellWidth = CGRectGetWidth(self.frame) - config.itemInsetSpacing * 2;
+    _bannerCellHeight = _bannerCellWidth / config.imageWidth * config.imageHeight;
+    _itemInsetSpacing = config.itemInsetSpacing;
+    _itemSpacing = config.itemInterSpacing;
+}
+
 -(instancetype)initWithFrame:(CGRect)frame bannerImgWidth:(CGFloat)width bannerImgHeight:(CGFloat)height leftRightSpace:(CGFloat)space itemSpace:(CGFloat)itemSpace{
     if (self = [super initWithFrame:frame]) {
         
-        _bannerCellWidth = kLZ_ScreenWidth - space*2;
+        _bannerCellWidth = frame.size.width - space * 2;
         _bannerCellHeight = _bannerCellWidth/width*height;
-        _cellInsetLeftRight = space;
-        _cellLeadingSpace = itemSpace;
+        _itemInsetSpacing = space;
+        _itemSpacing = itemSpace;
         
         [self setupConfigurations];
     }
@@ -47,7 +64,7 @@
     [self setBackgroundColor:[UIColor whiteColor]];
     
     [self.bannerCollectionView setFrame:CGRectMake(0, 0, CGRectGetWidth(self.bounds), _bannerCellHeight)];
-    [self.bannerCollectionView setContentInset:UIEdgeInsetsMake(0, _cellInsetLeftRight, 0, _cellInsetLeftRight)];
+    [self.bannerCollectionView setContentInset:UIEdgeInsetsMake(0, _itemInsetSpacing, 0, _itemInsetSpacing)];
     
     [self.pageControl setFrame:CGRectMake((CGRectGetWidth(self.bounds)-100)/2, CGRectGetHeight(self.bounds)-25, 100, 20)];
 }
@@ -92,7 +109,7 @@
 }
 
 - (CGFloat)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout minimumLineSpacingForSectionAtIndex:(NSInteger)section{
-    return _cellLeadingSpace;
+    return _itemSpacing;
 }
 
 #pragma mark - UIScrollViewDelegate
@@ -104,8 +121,8 @@
 - (void)scrollViewWillEndDragging:(UIScrollView *)scrollView withVelocity:(CGPoint)velocity targetContentOffset:(inout CGPoint *)targetContentOffset{
     
     //1. 计算滚动一页的偏移量。  第一个cell因为有contentInset影响，所以和后面每滚动一页有一个contentInset的区别
-    CGFloat firstCellOffset = kLZ_ScreenWidth - 3*_cellInsetLeftRight + _cellLeadingSpace ;
-    CGFloat otherCellOffsetX = kLZ_ScreenWidth -2*_cellInsetLeftRight+_cellLeadingSpace;
+    CGFloat firstCellOffset = CGRectGetWidth(self.frame) - 3*_itemInsetSpacing + _itemSpacing ;
+    CGFloat otherCellOffsetX = CGRectGetWidth(self.frame) -2*_itemInsetSpacing+_itemSpacing;
     
     //2. 此处判断是否需要改变页数
     if (fabs(velocity.x) <= 0.3) {

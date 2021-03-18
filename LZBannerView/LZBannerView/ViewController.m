@@ -30,14 +30,19 @@
 #pragma mark - setupBanner
 -(void)setupOneBannerView{
     
-    LZBannerView * oneBannerView = [[LZBannerView alloc]initWithFrame:CGRectMake(0, 20, CGRectGetWidth(self.view.bounds), 193) bannerImgWidth:343 bannerImgHeight:200 leftRightSpace:20 itemSpace:5];
+    LZBannerConfig *config = [LZBannerConfig new];
+    config.imageWidth = 343;
+    config.imageHeight = 200;
+    config.itemInsetSpacing = 20;
+    config.itemInterSpacing = 10;
+    LZBannerView *oneBannerView = [[LZBannerView alloc] initWithFrame:CGRectMake(0, 20, CGRectGetWidth(self.view.bounds) - 100, 193) config:config];
     [oneBannerView setupBannerData:self.dataArray];
     [self.view addSubview:oneBannerView];
 }
 
 -(void)setupTwoBannerView{
     
-    LZBannerView * twoBannerView = [[LZBannerView alloc]initWithFrame:CGRectMake(0,250, CGRectGetWidth(self.view.bounds), 200) bannerImgWidth:343 bannerImgHeight:193 leftRightSpace:0 itemSpace:5];
+    LZBannerView * twoBannerView = [[LZBannerView alloc]initWithFrame:CGRectMake(0,250, CGRectGetWidth(self.view.bounds), 200) bannerImgWidth:343 bannerImgHeight:193 leftRightSpace:0 itemSpace:50];
     [twoBannerView setupBannerData:self.dataArray];
     [self.view addSubview:twoBannerView];
 }
