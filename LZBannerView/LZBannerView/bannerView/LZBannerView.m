@@ -33,8 +33,9 @@
 
 - (instancetype)initWithFrame:(CGRect)frame config:(LZBannerConfig *)config {
     if (self = [super initWithFrame:frame]) {
+        [self setBackgroundColor:[UIColor whiteColor]];
         self.config = config;
-        [self setupConfigurations];
+        [self setupPageControl];
     }
     return self;
 }
@@ -45,28 +46,18 @@
     _bannerCellHeight = _bannerCellWidth / config.imageWidth * config.imageHeight;
     _itemInsetSpacing = config.itemInsetSpacing;
     _itemSpacing = config.itemInterSpacing;
-}
-
--(instancetype)initWithFrame:(CGRect)frame bannerImgWidth:(CGFloat)width bannerImgHeight:(CGFloat)height leftRightSpace:(CGFloat)space itemSpace:(CGFloat)itemSpace{
-    if (self = [super initWithFrame:frame]) {
-        
-        _bannerCellWidth = frame.size.width - space * 2;
-        _bannerCellHeight = _bannerCellWidth/width*height;
-        _itemInsetSpacing = space;
-        _itemSpacing = itemSpace;
-        
-        [self setupConfigurations];
-    }
-    return self;
-}
-
--(void)setupConfigurations{
-    [self setBackgroundColor:[UIColor whiteColor]];
     
     [self.bannerCollectionView setFrame:CGRectMake(0, 0, CGRectGetWidth(self.bounds), _bannerCellHeight)];
     [self.bannerCollectionView setContentInset:UIEdgeInsetsMake(0, _itemInsetSpacing, 0, _itemInsetSpacing)];
-    
-    [self.pageControl setFrame:CGRectMake((CGRectGetWidth(self.bounds)-100)/2, CGRectGetHeight(self.bounds)-25, 100, 20)];
+}
+
+- (void)setupPageControl {
+    CGFloat w = CGRectGetWidth(self.bounds) * 0.8;
+    CGFloat h = 20;
+    CGFloat x = CGRectGetWidth(self.bounds) / 2 - 0.5 * w;
+    CGFloat y = CGRectGetHeight(self.bannerCollectionView.bounds) - h - 5;
+    CGRect frame = CGRectMake(x, y, w, h);
+    [self.pageControl setFrame:frame];
 }
 
 - (void)setupBannerData:(NSArray *)models {
@@ -79,7 +70,7 @@
         self.currentPage = 0;
     }else{
         self.virtualCellCount = 10000;
-        self.currentPage = self.dataArray.count * self.virtualCellCount/2;
+        self.currentPage = self.dataArray.count * self.virtualCellCount / 2;
         [self addTimer];
     }
     [self.bannerCollectionView reloadData];
@@ -121,8 +112,8 @@
 - (void)scrollViewWillEndDragging:(UIScrollView *)scrollView withVelocity:(CGPoint)velocity targetContentOffset:(inout CGPoint *)targetContentOffset{
     
     //1. 计算滚动一页的偏移量。  第一个cell因为有contentInset影响，所以和后面每滚动一页有一个contentInset的区别
-    CGFloat firstCellOffset = CGRectGetWidth(self.frame) - 3*_itemInsetSpacing + _itemSpacing ;
-    CGFloat otherCellOffsetX = CGRectGetWidth(self.frame) -2*_itemInsetSpacing+_itemSpacing;
+    CGFloat firstCellOffset = CGRectGetWidth(self.frame) - 3 * _itemInsetSpacing + _itemSpacing ;
+    CGFloat otherCellOffsetX = CGRectGetWidth(self.frame) - 2 * _itemInsetSpacing + _itemSpacing;
     
     //2. 此处判断是否需要改变页数
     if (fabs(velocity.x) <= 0.3) {
@@ -191,7 +182,8 @@
 
 #pragma mark - Private
 -(void)updatePageControl{
-    self.pageControl.currentPage = self.currentPage % self.dataArray.count;
+    NSUInteger page = self.currentPage % self.dataArray.count;
+    self.pageControl.currentPage = page;
 }
 
 #pragma mark - lazyLoad
@@ -224,8 +216,13 @@
     if (!_pageControl) {
         _pageControl = [[UIPageControl alloc]init];
         self.pageControl.currentPage = 0;
-        _pageControl.hidesForSinglePage = YES;
-        _pageControl.userInteractionEnabled = NO;
+        _pageControl.hidesForSinglePage = NO;
+        _pageControl.userInteractionEnabled = YES;
+        
+//        _pageControl.currentPageIndicatorTintColor = [UIColor redColor];
+//        _pageControl.pageIndicatorTintColor = [UIColor greenColor];
+        _pageControl.allowsContinuousInteraction = YES;
+        
         [self addSubview:self.pageControl];
     }
     return _pageControl;

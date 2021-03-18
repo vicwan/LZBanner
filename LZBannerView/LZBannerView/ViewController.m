@@ -24,7 +24,7 @@
     [self.view setBackgroundColor:[UIColor whiteColor]];
     [self setupBannerData];
     [self setupOneBannerView];
-    [self setupTwoBannerView];
+//    [self setupTwoBannerView];
 }
 
 #pragma mark - setupBanner
@@ -41,7 +41,7 @@
 }
 
 -(void)setupTwoBannerView{
-    
+
     LZBannerView * twoBannerView = [[LZBannerView alloc]initWithFrame:CGRectMake(0,250, CGRectGetWidth(self.view.bounds), 200) bannerImgWidth:343 bannerImgHeight:193 leftRightSpace:0 itemSpace:50];
     [twoBannerView setupBannerData:self.dataArray];
     [self.view addSubview:twoBannerView];
